@@ -1,0 +1,112 @@
+<head>
+    <style> body { margin: 0; } </style>
+  
+    <script src="//unpkg.com/3d-force-graph-vr"></script>
+    <script src="//unpkg.com/axios/dist/axios.min.js"></script>
+<!--    <script src="bundle.js"></script>-->
+    <!--<script src="../../dist/3d-force-graph-vr.js"></script>-->
+  </head>
+  
+  <body>
+    <div id="3d-graph"></div>
+  
+    <script>
+        let data = []
+        let relationships = []
+        let formatted = {
+            'nodes' : [],
+            'links' : []
+        }
+
+        function formatData(response) {
+            data = response
+            data.forEach((e,i) => {
+                data[i] = data[i].n  
+            }) 
+            data.forEach(e => {
+                e['id'] = e.identity
+                if(e.properties.hasOwnProperty('title')) {
+                    e['name'] = e.properties.title
+                    e['val'] = 1 //e.properties.released
+                } else {
+                    e['name'] = e.properties.name
+                    e['val'] = 1 //e.properties.born
+                }
+            })
+            formatted.nodes = data
+            return formatted
+        }
+
+        function formatRelationship(response) {
+            relationships = response
+            relationships.forEach((e,i) => {
+                relationships[i] = relationships[i].r  
+            }) 
+            relationships.forEach(e => {
+                e['source'] = e.start
+                e['target'] = e.end
+            }) 
+            formatted.links = relationships
+            return formatted
+        }
+
+        function fetchRelationship() {
+
+            axios.get('/links')
+            .then(function (response) {
+                console.log(response.data);
+                // formatRelationship(response.data)
+                renderGraph(formatRelationship(response.data))
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+            //let respLink = localStorage.getItem("links");
+
+            //renderGraph(formatRelationship(respLink))
+        }
+
+        function fetchData() {
+
+            axios.get('/nodes')
+            .then(function (response) {
+                formatData(response.data)
+                fetchRelationship()
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        /*
+            console.log(localStorage.length)
+            let respNode = localStorage.getItem("nodes")
+            console.log(respNode)
+            formatData(respNode)
+            fetchRelationship()
+        */
+        }
+
+        function renderGraph(data) {
+            console.log(data)
+            const Graph = ForceGraphVR()
+                (document.getElementById('3d-graph'))
+                .graphData(data);
+
+        }
+
+<!--        const N = 30;-->
+<!--        const gData = {-->
+<!--            nodes: [...Array(N).keys()].map(i => ({ id: i })),-->
+<!--            links: [...Array(N).keys()]-->
+<!--            .filter(id => id)-->
+<!--            .map(id => ({-->
+<!--                source: id,-->
+<!--                target: Math.round(Math.random() * (id-1))-->
+<!--            }))-->
+<!--        };-->
+<!--        console.log(gData)-->
+        fetchData()
+        // renderGraph(gData)
+
+    </script>
+  </body>
