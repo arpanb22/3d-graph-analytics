@@ -28,12 +28,9 @@ app.get('/login', (req, res)=>{
 });
 app.post('/login', async (req, res) => {
     try{
-//        url = req.body.url;
-//        user = req.body.username;
-//        password = req.body.password;
-        url = 'neo4j+s://3235df21.databases.neo4j.io:7687';
-        user = 'neo4j';
-        password = 'welcome1';
+        url = req.body.url;
+        user = req.body.username;
+        password = req.body.password;
 
         console.log("URI: "+url)
         console.log("User: "+user)
