@@ -1,0 +1,9 @@
+node_modules
+.idea
+venv
+data
+package-lock.json
+ngrok
+public/d3-scale-chromatic.v1.min.js
+public/d3.js
+public/bundle.js
