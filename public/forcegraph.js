@@ -1,7 +1,13 @@
 document.writeln("<script type='text/javascript' src='//unpkg.com/3d-force-graph'></script>");
-document.writeln("<script type='text/javascript' src='//unpkg.com/3d-force-graph-vr'></script>")
-//document.writeln("<script type='text/javascript' src='//d3js.org/d3.v4'></script> charset='utf-8'")
-//document.writeln("<script type='text/javascript' src='d3-scale-chromatic.v1.min.js' charset='utf-8'></script>")
+//document.writeln("<script type='text/javascript' src='//unpkg.com/3d-force-graph-vr'></script>")
+//document.writeln("<script type='text/javascript' src='//unpkg.com/aframe'></script>")
+//document.writeln("<script type='text/javascript' src='//unpkg.com/@ar-js-org/ar.js'></script>")
+//document.writeln("<script type='text/javascript' src='//unpkg.com/3d-force-graph-ar'></script>")
+//document.writeln("<script type='text/javascript' charset='utf-8' src='//d3js.org/d3.v4.js'></script>")
+//document.writeln("<script type='text/javascript' src='//unpkg.com/d3-dsv'></script>")
+//document.writeln("<script type='text/javascript' src='//unpkg.com/3d-force-graph@1'></script>")
+//document.writeln("<script type='text/javascript' charset='utf-8' src='d3.js'></script>")
+//document.writeln("<script type='text/javascript' charset='utf-8' src='d3-scale-chromatic.v1.min.js'></script>")
 
 
 let data = []
@@ -123,9 +129,17 @@ function renderGraph(data) {
 //        .nodeLabel(node => `${node.name}`)
 //        .onNodeHover(node =>
 //            elem.style.cursor = node ? 'pointer' : null);
-//        Graph = ForceGraphVR()
         Graph = ForceGraph3D()
+//        Graph = ForceGraphVR()
+//        Graph = ForceGraphAR()
         (document.getElementById('3d-graph'))
+        .nodeThreeObject(({ name }) => {
+                const imgTexture = new THREE.TextureLoader().load(`./imgs/${name}.jpg`);
+                const material = new THREE.SpriteMaterial({ map: imgTexture });
+                const sprite = new THREE.Sprite(material);
+                sprite.scale.set(30, 30);
+                return sprite;
+              })
         .graphData(gData)
         .nodeColor(node => {
             if (highlightNodes.has(node))
@@ -217,18 +231,27 @@ function updateHighlight() {
 }
 
 function createLegend(){
-    // select the svg area
-    var Svg = d3.select("#my_dataviz2")
+// select the svg area
+var svg = d3.select("#my_dataviz")
 
-    // create a list of keys
-    var keys = groupMap.keys()
+// Handmade legend
+svg.append("circle").attr("cx",200).attr("cy",130).attr("r", 6).style("fill", "#69b3a2")
+svg.append("circle").attr("cx",200).attr("cy",160).attr("r", 6).style("fill", "#404080")
+svg.append("text").attr("x", 220).attr("y", 130).text("variable A").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 220).attr("y", 160).text("variable B").style("font-size", "15px").attr("alignment-baseline","middle")
 
-    // Usually you have a color scale in your chart already
-    var color = groupMap.values();
-
-    console.log("Legend")
-    console.log(keys)
-    console.log(color)
+//    // select the svg area
+//    var Svg = d3.select("#my_dataviz2")
+//
+//    // create a list of keys
+//    var keys = groupMap.keys()
+//
+//    // Usually you have a color scale in your chart already
+//    var color = groupMap.values();
+//
+//    console.log("Legend")
+//    console.log(keys)
+//    console.log(color)
 //    // Add one dot in the legend for each name.
 //    Svg.selectAll("mydots")
 //      .data(keys)
