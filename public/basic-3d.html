@@ -1,0 +1,1006 @@
+<head>
+    <style> body { margin: 0; } </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="./range/range.css">
+
+    <script src="//unpkg.com/three"></script>
+    <script src="//unpkg.com/three-spritetext"></script>
+    <script src="//unpkg.com/3d-force-graph"></script>
+    <script src="//unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="//cdn.skypack.dev/three@0.136/examples/jsm/postprocessing/UnrealBloomPass.js"></script>
+    <script src="//unpkg.com/element-resize-detector/dist/element-resize-detector.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="./range/range.js"></script>
+<!-- <script src="//unpkg.com/three-spritetext"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.js"></script> -->
+    <!--<script src="../../dist/3d-force-graph-vr.js"></script>-->
+    <style>
+        body {
+          padding-right: 1em;
+        }
+        .ui.menu {
+            font-size: large;
+            margin: 0em 2em;
+        }
+        #controls .row {
+            margin-top: 2em;
+        }
+        /* .ui.menu:last-child {
+          margin-bottom: 110px;
+        } */
+        
+
+    </style>
+
+  </head>
+  
+  <body>
+    <!-- <div class="ui vertical menu">
+        <div class="item">
+          <div class="ui input"><input type="text" placeholder="Search..."></div>
+        </div>
+        <div class="item">
+          Home
+          <div class="menu">
+            <a class="active item">Search</a>
+            <a class="item">Add</a>
+            <a class="item">Remove</a>
+          </div>
+        </div>
+        <a class="item">
+          <i class="grid layout icon"></i> Browse
+        </a>
+        <a class="item">
+          Messages
+        </a>
+        <div class="ui dropdown item">
+          More
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <a class="item"><i class="edit icon"></i> Edit Profile</a>
+            <a class="item"><i class="globe icon"></i> Choose Language</a>
+            <a class="item"><i class="settings icon"></i> Account Settings</a>
+          </div>
+        </div>
+      </div> -->
+        <div class="ui grid" id="container">
+            <div class="row">
+                <div class="thirteen wide column">
+                    <div class="column">
+                        <div class="ui tabular menu">
+                            <a class="item" id="sperical-node-selector">Spherical Nodes</a>
+                            <a class="item" id="text-node-selector">Text Nodes</a>
+                            <a class="item" id="img-node-selector">Image Nodes</a>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="ui horizontal equal width segments" style="width:50%">
+                        <div class="ui segment">
+                            <div class="ui segment">
+                                <div class="ui segment">
+                                    <div class="ui range" id="range-1"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui segment">
+                            Segment Two with a lot of additional content
+                        </div>
+                    </div> -->
+                    <div id="3d-graph"></div>
+                </div>
+                <div class="three wide column" id="controls">
+                    <h4 class="ui horizontal divider">
+                        Graph Controls
+                    </h4>
+
+                    <div class="row">
+                        <div class="ui two statistics">
+                            <div class="statistic">
+                            <div class="value" id="node-count">
+                                0
+                            </div>
+                            <div class="label">
+                                Nodes
+                            </div>
+                            </div>
+                            <div class="statistic">
+                            <div class="value" id="links-count">
+                                0
+                            </div>
+                            <div class="label">
+                                Links
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row">
+                        <h3 class="ui header">Adjust Force</h3>
+                        
+                        <div class="ui segment">
+                            <div class="ui red range" id="force-range"></div>
+                            <br>
+                            <div class="ui mini horizontal statistic">
+                                <div class="value" id="force-value">
+                                  400
+                                </div>
+                                <div class="label">
+                                  Units
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="ui divider"></div>
+                    </div> 
+
+<!--                    <div class="row">-->
+<!--                        <h3 class="ui header"> Legend </h3>-->
+<!--                        -->
+<!--                        <div class="ui segment" id="legend">-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+                    <div class="row">
+                        <div class="ui divider"></div>
+                    </div>
+
+                    <div class="row">
+                        <h3 class="ui header">Adjust Link Distance</h3>
+                        
+                        <div class="ui segment">
+                            <div class="ui red range" id="link-distance-range"></div>
+                            <br>
+                            <div class="ui mini horizontal statistic">
+                                <div class="value" id="link-distance-value">
+                                  10
+                                </div>
+                                <div class="label">
+                                  Units
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="ui divider"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="public" id="toggle-selected-nodes"/>
+                            <label>Show selected nodes only</label>
+                          </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="ui divider"></div>
+                    </div>
+
+                    <div class="row">
+                        <h3 class="ui header">Filter Neighbours</h3>
+                        
+                        <div class="ui segment">
+                            <div class="ui teal range" id="neighbour-range"></div>
+                            <br>
+                            <div class="ui mini horizontal statistic">
+                                <div class="value" id="neighbour-distance">
+                                  1
+                                </div>
+                                <div class="label">
+                                  Hops
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="ui divider"></div>
+                    </div>
+
+                    
+                    <div class="row">
+                        <h3 class="ui header" id="node-size-text">Text Size</h3>
+                        
+                        <div class="ui segment">
+                            <div class="ui  range" id="node-size-range"></div>
+                            <br>
+                            <div class="ui mini horizontal statistic">
+                                <div class="value" id="node-size-value">
+                                  15
+                                </div>
+                                <div class="label">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="ui divider"></div>
+                    </div>
+
+                    <div class="row">
+                        <h3 class="ui header">Tag Filter</h3>
+                        <!-- <div class="ui dropdown">
+                            <div class="text"></div>
+                            <i class="dropdown icon"></i>
+                        </div> -->
+                        <div class="ui segment" id="tags-dropdown-parent">
+                            <select class="ui fluid search dropdown" multiple="" id="tags-dropdown">
+                            </select>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="ui divider"></div>
+                    </div>
+
+                    <button class="positive ui button large" id="shortest-path-button">Shortest Path</button>
+
+                    <div class="row">
+                        <div class="ui divider"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+      </body>
+
+    <script type="module">
+        
+        import { UnrealBloomPass } from '//cdn.skypack.dev/three@0.136/examples/jsm/postprocessing/UnrealBloomPass.js';
+        let data = {}
+        let originalData = {}
+        let relationships = []
+        let formatted = {
+            'nodes' : [],
+            'links' : []
+        }
+        let Graph; 
+        const visitedNodes = new Set();
+        const selectedNodes = new Set();
+        const selectedNodesNeighbors = new Set();
+        const selectedNodesLinks = new Set();
+        const highlightNodes = new Set();
+        const highlightLinks = new Set();
+        const taggedNodes = new Set()
+        const taggedNodesNeighbors = new Set()
+        const taggedLinks = new Set()
+        const tags = new Set();
+        let  bloomEnabled = false;
+        let hoverNode = null;
+        let isToggle = false;
+        let nodeType = 1;
+        let force = 400
+        let fontSize = 15
+        let hopsSliderValue = 1;
+        let linkForce;
+        let chargeForce;
+        let linkForceDistance = 50
+        let nTags = 0
+        let imageCache = {}
+        let imageSize = 15
+        const colorMap = {1: 'BLUE', 2: 'GREEN', 3: 'PINK', 4: 'ORANGE', 5: 'LIGHTGREEN'}
+        let groupColor = new Map();
+
+
+        const RED = 'rgb(255, 0, 0, 1)'
+        // const YELLOW = 'rgb(255, 255, 0, 1);'
+        const YELLOW = 'rgba(229, 144, 0, 0.8)'
+        const SELECTEDYELLOW = 'rgba(229, 144, 0, 0.8)'
+        const BLUE = 'rgba(0, 255, 255, 0.6)'       // works
+        const GREEN = 'rgb(0, 255, 0, 1);'
+        const PINK = 'rgb(255, 0, 128, 1);'
+        const ORANGE = 'rgb(255, 64, 0, 1);'
+        const LIGHTGREEN = 'rgb(191, 255, 0, 1);'
+
+
+
+        $(document).ready(function(){
+
+            fetchData()
+
+            $('#sperical-node-selector').click(function(e) {  
+                nodeType = 1
+                // Graph.nodeThreeObject(node => {
+                //     return false;
+                // });
+                renderGraph()
+                changeNodeSlider()
+            });
+            
+            $('#text-node-selector').click(function(e) {  
+                nodeType = 2
+                // Graph.nodeThreeObject(node => {
+                //     const sprite = new SpriteText(node.name);
+                //     sprite.material.depthWrite = false; // make sprite background transparent
+                //     sprite.color = nodeColorHandler(node);
+                //     sprite.textHeight = fontSize;
+                //     return sprite;
+                // });
+                renderGraph()
+                changeNodeSlider()
+                //console.log('Hi')
+            });
+
+            
+            $('#img-node-selector').click(function(e) {  
+                nodeType = 3
+                // Graph.nodeThreeObject(node => {
+                //     const sprite = new SpriteText(node.name);
+                //     sprite.material.depthWrite = false; // make sprite background transparent
+                //     sprite.color = nodeColorHandler(node);
+                //     sprite.textHeight = fontSize;
+                //     return sprite;
+                // });
+                renderGraph()
+                changeNodeSlider()
+            });
+
+
+            $('.ui.menu .ui.dropdown').dropdown({
+                on: 'hover'
+            });
+
+            $('.ui.menu a.item').on('click', function() {
+                $(this)
+                .addClass('active')
+                .siblings()
+                .removeClass('active')
+                ;
+            });
+
+            $('#neighbour-range').range({
+                min: 0,
+                max: 5,
+                start: 1,
+                onChange: function(value) {
+                    $('#neighbour-distance').html(value);
+                    hopsSliderValue = value;
+                    if(Array.from(selectedNodes).length > 0){
+                        addNeighborsWithinKHopsBase(Array.from(selectedNodes)[0], hopsSliderValue);
+                    }
+                }
+            });
+
+            $( "#neighbour-range").mouseup(function() {
+                Graph.nodeColor(Graph.nodeColor())
+            });
+
+            $('#force-range').range({
+                min: 100,
+                max: 2000,
+                start: 400,
+                onChange: function(value) {
+                    $('#force-value').html(value);
+                    force = value
+                }
+            });
+            
+            $( "#force-range" ).mouseup(function() {
+                renderGraph()
+            });
+
+            $('#toggle-selected-nodes').change(e => {
+                isToggle = $('#toggle-selected-nodes').is(':checked')
+                filterSelectedNodes(isToggle)
+            });
+
+            $('#toggle-bloom').change(e => {
+                let isToggled = $('#toggle-bloom').is(':checked')
+                if(isToggled && !bloomEnabled) {
+                    bloomEnabled = true
+                    updateBloom(3)
+                }
+            });
+
+            
+            $('#font-size-range').range({
+                min: 2,
+                max: 50,
+                start: 15,
+                onChange: function(value) {
+                    $('#font-size-value').html(value);
+                    fontSize = value
+                }
+            });
+
+            $( "#node-size-range").mouseup(function() {
+                renderGraph()
+            });
+
+            changeNodeSlider()
+
+        });
+
+        
+        function updateBloom(bloomValue) {
+            const bloomPass = new UnrealBloomPass();
+            bloomPass.strength = bloomValue;
+            bloomPass.radius = 0.2;
+            bloomPass.threshold = 0.5;
+            Graph.postProcessingComposer().addPass(bloomPass);
+        }
+
+        function formatData(response) {
+            data = response
+            data.forEach((e,i) => {
+                data[i] = data[i].n  
+            }) 
+            data.forEach(e => {
+                e['id'] = e.identity
+                if(e.properties.hasOwnProperty('title')) {
+                    e['name'] = e.properties.title
+                    e['val'] = 1 //e.properties.released
+                    e['group'] = 7
+                } else {
+                    e['name'] = e.properties.name
+                    e['val'] = 1 //e.properties.born
+                    e['group'] = 1
+                }
+            })
+            formatted.nodes = data
+            return formatted
+        }
+
+        function formatNeighbors(data) {
+            console.log(data)
+            data.links.forEach(link => {
+                const a = data.nodes[link.source];
+                const b = data.nodes[link.target];
+                !a.neighbors && (a.neighbors = []);
+                !b.neighbors && (b.neighbors = []);
+                a.neighbors.push(b);
+                b.neighbors.push(a);
+
+                !a.links && (a.links = []);
+                !b.links && (b.links = []);
+                a.links.push(link);
+                b.links.push(link);
+            });
+        }
+
+        function formatRelationship(response) {
+            relationships = response
+            relationships.forEach((e,i) => {
+                relationships[i] = relationships[i].r 
+            }) 
+            relationships.forEach(e => {
+                e['source'] = e.start
+                e['target'] = e.end
+            }) 
+            formatted.links = relationships
+            return formatted
+        }
+
+        function updateCount(data) {
+            document.getElementById("node-count").innerText = data.nodes.length
+            document.getElementById("links-count").innerText = data.links.length
+        }
+
+        function fetchRelationship() {
+            axios.get('./links')
+            .then(function (response) {
+                // formatRelationship(response.data)
+                data = formatRelationship(response.data)
+                formatNeighbors(data)
+                addGenres(data)
+                updateCount(data)
+                jQuery.extend(originalData, data)
+                addNodeTags(data)
+                renderGraph()
+                // console.log(JSON.stringify(formatted))
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
+
+        function fetchData() {
+            axios.get('./nodes')
+            .then(function (response) {
+                formatData(response.data)
+                fetchRelationship()
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
+
+        function removeNode(node) {
+            let { nodes, links } = Graph.graphData();
+            links = links.filter(l => l.source !== node && l.target !== node); // Remove links attached to node
+            nodes.splice(node.id, 1); // Remove node
+            nodes.forEach((n, idx) => { n.id = idx; }); // Reset node ids to array index
+            Graph.graphData({ nodes, links });
+        }
+
+        function getColor(node) {
+
+            if(!(groupColor.has(node.group))){
+                let otherColor = Math.floor(Math.random()*4+1)
+                while (Array.from(groupColor.values()).includes(colorMap[otherColor])){
+                    otherColor = Math.floor(Math.random()*4+1)
+                    console.log("otherColor")
+                }
+                groupColor.set(node.group, colorMap[otherColor]);
+                //$('#legend').append(`<a class="ui label"></a>`);
+            }
+            console.log(groupColor.get(node.group))
+            return groupColor.get(node.group);
+
+            //if(node.group === 1)
+            //    return 'cyan'
+            //else
+            //    return 'violet'
+        }
+
+        function addGenres(data) {
+            console.log(data)
+            const genres = [
+                'Action','Comedy','Drama','Fantasy',
+                'Horror','Mystery','Romance','Thriller',
+                'Western','Crime','Mind Bend','Psychological',
+                'Disaster','Real Life','Spy','War',
+                'Military','Martial Arts','Kung Fu','Action',
+                'Detective','Suspense','Comedy','Zombie',
+                'Space','Time Travel','Robot','Futuristic',
+                'Alien','Monster','Superhero','Sci-fi'
+            ]
+
+            const minTags = 4
+            const maxTags = 8
+            const diff = maxTags - minTags
+
+            data.nodes.forEach(node => {
+                if(node.group == 7) {
+                    const nTags = minTags + Math.floor(Math.random() * diff)
+                    for(let i = 0; i < nTags; i++) {
+                        const idx = Math.floor(Math.random() * genres.length)
+                        if(!node.labels.includes(genres[idx]))
+                            node.labels.push(genres[idx])
+                    }
+                }
+            })
+        }
+
+        function addNeighborsWithinKHopsBase(node, hops){
+            visitedNodes.clear();
+            selectedNodes.clear();
+            selectedNodesLinks.clear();
+            selectedNodesNeighbors.clear();
+            selectedNodes.add(node);
+            visitedNodes.add(node);
+            addNeighborsWithinKHops(node, hops);
+        }
+
+        function addNeighborsWithinKHops(node, hops){
+            if (hops > 0){
+                //console.log(node);
+                visitedNodes.add(node);
+                node.links.forEach(link => selectedNodesLinks.add(link));
+                node.neighbors.forEach(neighbor => {
+                    if (!visitedNodes.has(neighbor)){
+                        visitedNodes.add(neighbor);
+                        selectedNodesNeighbors.add(neighbor);
+                        addNeighborsWithinKHops(neighbor, hops-1);
+                    }
+                })
+            }
+            if(hops == 0){
+                visitedNodes.add(node);
+            }
+        }
+
+        function shortestPathBetweenNodes(src, dest){
+            selectedNodes.clear();
+            selectedNodesLinks.clear();
+            selectedNodesNeighbors.clear();
+            selectedNodes.add(src);
+            selectedNodes.add(dest);
+            console.log('Source', src);
+            console.log('Destination', dest);
+            
+            var q = [];
+            var parentNode = {};
+            var parentLink = {};
+            var idToNodeMap = {};
+            var idToLinkMap = {};
+            const visited = new Set();
+            var front;
+            visited.add(src.identity);
+            q.push(src.identity);
+            idToNodeMap[src.identity] = src;
+            parentNode[src.identity] = -1;
+            while(q.length > 0)
+            {
+                //console.log('size - ' + q.length);
+                front = q.shift();
+                //console.log('Front - ', front);
+                //console.log('size now - ' + q.length);
+                if(front == dest.identity){
+                    break;
+                }
+                idToNodeMap[front].neighbors.forEach(neighbor => {
+                    idToNodeMap[neighbor.identity] = neighbor;
+                })
+                var i = 0;
+                idToNodeMap[front].neighbors.forEach(neighbor =>{
+                    if (!visited.has(neighbor.identity)){
+                        visited.add(neighbor.identity);
+                        q.push(neighbor.identity);
+                        idToNodeMap[neighbor.identity] = neighbor;
+                        parentNode[neighbor.identity] = front;
+                        parentLink[neighbor.identity] = idToNodeMap[front].links[i];
+                    }
+                    i++;
+                })
+                idToNodeMap[front].links.forEach(link => {
+                    idToLinkMap[link.identity] = link;
+                })
+            }
+            var idx = dest.identity;
+            
+            while (idx != -1){
+                //console.log('idx', idx);
+                selectedNodesNeighbors.add(idToNodeMap[idx]);
+                if(idx in parentLink){
+                    selectedNodesLinks.add(parentLink[idx]);
+                    //console.log(parentLink[idx]);
+                }
+                idx = parentNode[idx];
+            }
+            selectedNodesNeighbors.delete(dest);
+            selectedNodesNeighbors.delete(src);
+
+            // updateCount(data)
+            Graph.nodeColor(Graph.nodeColor())
+        }
+
+
+        function addNodeAndNeightbors(node) {
+            selectedNodes.add(node);
+            node.neighbors.forEach(neighbor => selectedNodesNeighbors.add(neighbor))
+            node.links.forEach(link => selectedNodesLinks.add(link));
+        }
+
+        function addNodeTags(data) {
+            data.nodes.forEach(n => {     
+                if(n.hasOwnProperty('labels')) {
+                    n.labels.forEach(e => {
+                        tags.add(e)
+                    })
+                }
+            })
+            console.log(Array.from(tags))
+            
+            let tagsArray = [];
+            Array.from(tags).forEach(t => {
+                tagsArray.push({
+                    name: t,
+                    value: t
+                })
+            })
+
+            $('.ui.dropdown').dropdown({
+                values: tagsArray
+            })
+        }
+
+        function onNodeClickHandler(node, event) {
+            if (event.ctrlKey || event.shiftKey || event.altKey) { // multi-selection
+                if(selectedNodes.has(node)) {
+                    console.log('Remove Node: ', node)
+                    selectedNodes.delete(node)
+                 } else { 
+                    addNodeAndNeightbors(node)
+                 }
+            } else { // single-selection
+                const untoggle = selectedNodes.has(node) && selectedNodes.size === 1;
+                selectedNodes.clear();
+                selectedNodesNeighbors.clear();
+                selectedNodesLinks.clear();
+                if(!untoggle) {
+                    console.log('Adding node and neighbours: ', node)
+                    addNodeAndNeightbors(node)
+                } 
+            }
+
+            
+            // Aim at node from outside it
+            const distance = 400;
+            const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+            Graph.cameraPosition({
+                x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
+                node, // lookAt ({ x, y, z })
+                3000  // ms transition duration
+            );
+
+            Graph.nodeColor(Graph.nodeColor()); // update color of selected node
+        }
+
+        function nodeColorHandler(node) {
+            if(taggedNodes.has(node)) {
+                return RED
+            } else if(taggedNodesNeighbors.has(node)) {
+                return YELLOW
+            }
+
+            if(highlightNodes.has(node)) {
+                if(node === hoverNode) 
+                    return RED
+                else 
+                    return YELLOW
+            } if (selectedNodes.has(node)) {
+                return RED
+            } else if(selectedNodesNeighbors.has(node)) {
+                return YELLOW
+            } else {
+                return getColor(node)
+            }
+            
+        }
+
+        function filterSelectedNodes(isToggle) {
+            if(isToggle) {
+                let newNodes = Array.from(selectedNodes.values())
+                let newNeighbours = Array.from(selectedNodesNeighbors.values())
+                let allNodes = [...newNodes,...newNeighbours]
+
+                let newLinks = Array.from(selectedNodesLinks.values())
+
+                data = {
+                    nodes: allNodes,
+                    links: newLinks
+                }
+
+            } else {
+                jQuery.extend(data, originalData)
+            }
+            updateCount(data)
+            Graph.graphData(data)
+            // renderGraph()
+        }
+
+
+
+        function getImageSprite(name) {
+            window.imageCache = imageCache
+            if(!imageCache.hasOwnProperty(name)) {
+                const imageLocation = './imgs/' + name + '.jpg'
+                const imgTexture = new THREE.TextureLoader().load(imageLocation);      
+                const material = new THREE.SpriteMaterial({ map: imgTexture });
+                const sprite = new THREE.Sprite(material);
+                imageCache[name] = sprite
+                
+            }
+
+            return imageCache[name]
+        }
+
+        $('#node-size-range').range({
+            min: 2,
+            max: 50,
+            start: 15,
+            onChange: function(value) {
+                $('#node-size-value').html(value);
+                imageSize = value;
+                fontSize = value;
+            }
+        });
+
+        function changeNodeSlider() {
+            $('#node-size-text').text((nodeType !== 1) ? ((nodeType !== 2) ? 'Image Size' : 'Text Size') : 'Sphere Size')
+        }
+
+        function renderGraph() {
+            console.log(data)
+            
+
+            const start = new Date()
+
+            Graph = ForceGraph3D()
+                (document.getElementById('3d-graph'))
+                    // .jsonUrl('/three.js/examples/graph/formatted.json')
+                    .graphData(data)      
+                    .nodeRelSize(9)
+                    .linkLabel('type')
+                    // .width()
+                    .showNavInfo(false)
+                    .nodeThreeObject(node => {
+                            if(nodeType === 2) {
+                            const sprite = new SpriteText(node.name);
+                            sprite.material.depthWrite = false; // make sprite background transparent
+                            sprite.color = nodeColorHandler(node);
+                            sprite.textHeight = fontSize;
+                            return sprite;
+                        } else if(nodeType == 1) {
+                            return false
+                        } else {
+                            
+                            // const imageLocation = '/three.js/examples/graph/imgs/' + node.name + '.jpg'
+                            // const imgTexture = new THREE.TextureLoader().load(imageLocation);      
+                            // const material = new THREE.SpriteMaterial({ map: imgTexture });
+                            // const sprite = new THREE.Sprite(material);
+
+                            let sprite =  getImageSprite(node.name)
+                            
+                            if(node.labels.includes('Movie')) {
+                                sprite.scale.set(imageSize * 2, imageSize * 2);
+                            } else if(node.labels.includes('Person')) {
+                                sprite.scale.set(imageSize, imageSize);
+                            } else {
+                                sprite.scale.set(imageSize, imageSize);
+                            }
+                            return sprite;
+                        }
+                    })
+                    // .nodeAutoColorBy('group')
+                    // .nodeColor(node => selectedNodes.has(node) ? 'yellow' : 'grey')
+                    // .nodeColor(node => highlightNodes.has(node) ? node === hoverNode ? 'rgb(255,0,0,1)' : 'rgba(255,160,0,0.8)' : 'rgba(0,255,255,0.6)')
+                    .nodeColor(nodeColorHandler)
+                    .linkWidth(link => (highlightLinks.has(link) || selectedNodesLinks.has(link)) ? 4 : 1)
+                    .linkDirectionalParticles(link => (highlightLinks.has(link) || selectedNodesLinks.has(link)) ? 2 : 0)
+                    .linkDirectionalParticleWidth(4)
+                    // .nodeColor(node => selectedNodes.has(node) ? 'yellow' : 'grey')
+                    
+                    .nodeThreeObjectExtend(false)
+                    .onNodeClick(onNodeClickHandler)
+                    
+                    .onNodeDrag((node, translate) => {
+                        // console.log(node)
+                        if (selectedNodes.has(node)) { // moving a selected node
+                            [...selectedNodes]
+                            .filter(selNode => selNode !== node) // don't touch node being dragged
+                            .forEach(node => ['x', 'y', 'z'].forEach(coord => node[`f${coord}`] = node[coord] + translate[coord])); // translate other nodes by same amount
+                        }
+                    })
+                    .onNodeDragEnd(node => {
+                        if (selectedNodes.has(node)) { // finished moving a selected node
+                            [...selectedNodes]
+                            .filter(selNode => selNode !== node) // don't touch node being dragged
+                            .forEach(node => ['x', 'y', 'z'].forEach(coord => node[`f${coord}`] = undefined)); // unfix controlled nodes
+                        }
+                    })
+                    .onNodeHover(node => {
+                        // no state change
+                        if ((!node && !highlightNodes.size) || (node && hoverNode === node)) return;
+
+                        highlightNodes.clear();
+                        highlightLinks.clear();
+                        if (node) {
+                            highlightNodes.add(node);
+                            // if(node.hasOwnProperty('neighbor')) {
+                            //     node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
+                            //     node.links.forEach(link => highlightLinks.add(link));
+                            // }
+                        }
+
+                        hoverNode = node || null;
+
+                        updateHighlight();
+                    })
+                    .onLinkHover(link => {
+                        highlightNodes.clear();
+                        highlightLinks.clear();
+
+                        if (link) {
+                            highlightLinks.add(link);
+                            highlightNodes.add(link.source);
+                            highlightNodes.add(link.target);
+                        }
+
+                        updateHighlight();
+                    });
+         
+                
+                const end = new Date()
+                console.log('Time Taken : ', end - start)
+
+                function updateHighlight() {
+                // trigger update of highlighted objects in scene
+                    Graph.nodeColor(Graph.nodeColor())
+                        .linkWidth(Graph.linkWidth())
+                        .linkDirectionalParticles(Graph.linkDirectionalParticles());
+                }
+                 
+                Graph.d3Force('charge').strength(-1 * force);
+                linkForce = Graph.d3Force('link').distance(link => linkForceDistance);
+                window.Graph = Graph
+
+        
+                elementResizeDetectorMaker().listenTo(
+                    document.getElementById('3d-graph'),
+                    el => Graph.width(el.offsetWidth)
+                );
+                
+
+                $('#link-distance-range').range({
+                    min: 5,
+                    max: 400,
+                    start: 50,
+                    onChange: function(value) {
+                        $('#link-distance-value').html(value);
+                        linkForceDistance = value;
+                        linkForce.distance(link => linkForceDistance);
+                        Graph.numDimensions(3);
+                    }
+                });
+
+                function addTaggedChildren(queue, hops) {
+                    if(hops > 0) {
+                        let newQueue = []
+                        while(queue.length > 0) {
+                            let node = queue.shift()
+                            console.log('shifted', node)
+                            if(node.hasOwnProperty('neighbors'))
+                                node.neighbors.forEach(neighbor => {
+                                    if(!taggedNodesNeighbors.has(neighbor)) {
+                                        taggedNodesNeighbors.add(neighbor)
+                                        newQueue.push(neighbor)
+                                    }
+                                })
+
+                            addTaggedChildren(newQueue, hops - 1)
+                        }
+                    }
+                }
+        
+                function tagsHandler() {
+                    if(nTags !== document.querySelectorAll('#tags-dropdown-parent a').length) {
+                        nTags = document.querySelectorAll('#tags-dropdown-parent a').length
+                        const selectedTags = []
+                        document.querySelectorAll('#tags-dropdown-parent a').forEach(e => {
+                            selectedTags.push(e.getAttribute('data-value'))
+                        })
+
+                        jQuery.extend(data, originalData)
+
+                        data.nodes.forEach(node => {
+                            node.labels.forEach(tag => {
+                                if(selectedTags.includes(tag)) {
+                                    selectedNodes.add(node)
+                                } else {
+                                    if(selectedNodes.has(node))
+                                        selectedNodes.delete(node)
+                                }
+                            })
+                        })
+
+                        console.log(Array.from(selectedNodes))
+                        Graph.nodeColor(Graph.nodeColor())
+                    }
+                }
+
+                // $(window).mouseup(function() {
+                //     tagsHandler()
+                //     console.log(selectedNodes.size)
+                // });
+
+                $("#tags-dropdown-parent" ).change(function() {
+                    tagsHandler()
+                });
+
+                
+                $('#shortest-path-button').on('click', function() {
+                    console.log('clicked', selectedNodes.size)
+                    if(selectedNodes.size == 2) {
+                        let selected = [...selectedNodes]
+                        shortestPathBetweenNodes(selected[0], selected[1])
+                    } else {
+                        alert("Please select 2 nodes only")
+                    }
+                });
+
+                // updateBloom(2)
+
+        }
+
+
+    </script>
+  </body>

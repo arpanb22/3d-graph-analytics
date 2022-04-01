@@ -1,8 +1,8 @@
-document.writeln("<script type='text/javascript' src='//unpkg.com/3d-force-graph'></script>");
+//document.writeln("<script type='text/javascript' src='//unpkg.com/3d-force-graph'></script>");
 //document.writeln("<script type='text/javascript' src='//unpkg.com/3d-force-graph-vr'></script>")
-//document.writeln("<script type='text/javascript' src='//unpkg.com/aframe'></script>")
-//document.writeln("<script type='text/javascript' src='//unpkg.com/@ar-js-org/ar.js'></script>")
-//document.writeln("<script type='text/javascript' src='//unpkg.com/3d-force-graph-ar'></script>")
+document.writeln("<script type='text/javascript' src='//unpkg.com/aframe'></script>")
+document.writeln("<script type='text/javascript' src='//unpkg.com/@ar-js-org/ar.js'></script>")
+document.writeln("<script type='text/javascript' src='//unpkg.com/3d-force-graph-ar'></script>")
 //document.writeln("<script type='text/javascript' charset='utf-8' src='//d3js.org/d3.v4.js'></script>")
 //document.writeln("<script type='text/javascript' src='//unpkg.com/d3-dsv'></script>")
 //document.writeln("<script type='text/javascript' src='//unpkg.com/3d-force-graph@1'></script>")
@@ -129,17 +129,17 @@ function renderGraph(data) {
 //        .nodeLabel(node => `${node.name}`)
 //        .onNodeHover(node =>
 //            elem.style.cursor = node ? 'pointer' : null);
-        Graph = ForceGraph3D()
+//        Graph = ForceGraph3D()
 //        Graph = ForceGraphVR()
-//        Graph = ForceGraphAR()
+        Graph = ForceGraphAR()
         (document.getElementById('3d-graph'))
-        .nodeThreeObject(({ name }) => {
-                const imgTexture = new THREE.TextureLoader().load(`./imgs/${name}.jpg`);
-                const material = new THREE.SpriteMaterial({ map: imgTexture });
-                const sprite = new THREE.Sprite(material);
-                sprite.scale.set(30, 30);
-                return sprite;
-              })
+//        .nodeThreeObject(({ name }) => {
+//                const imgTexture = new THREE.TextureLoader().load(`./imgs/${name}.jpg`);
+//                const material = new THREE.SpriteMaterial({ map: imgTexture });
+//                const sprite = new THREE.Sprite(material);
+//                sprite.scale.set(30, 30);
+//                return sprite;
+//              })
         .graphData(gData)
         .nodeColor(node => {
             if (highlightNodes.has(node))
@@ -158,7 +158,7 @@ function renderGraph(data) {
         })
         .onNodeClick(node => {
         // Aim at node from outside it
-        const distance = 400;
+        const distance = 40;
         const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
         Graph.cameraPosition({
             x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
