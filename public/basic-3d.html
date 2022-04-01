@@ -449,7 +449,7 @@
         }
 
         function formatNeighbors(data) {
-            console.log(data)
+            //console.log(data)
             data.links.forEach(link => {
                 const a = data.nodes[link.source];
                 const b = data.nodes[link.target];
@@ -526,12 +526,12 @@
                 let otherColor = Math.floor(Math.random()*4+1)
                 while (Array.from(groupColor.values()).includes(colorMap[otherColor])){
                     otherColor = Math.floor(Math.random()*4+1)
-                    console.log("otherColor")
+                    //console.log("otherColor")
                 }
                 groupColor.set(node.group, colorMap[otherColor]);
                 //$('#legend').append(`<a class="ui label"></a>`);
             }
-            console.log(groupColor.get(node.group))
+            //console.log(groupColor.get(node.group))
             return groupColor.get(node.group);
 
             //if(node.group === 1)
@@ -541,7 +541,7 @@
         }
 
         function addGenres(data) {
-            console.log(data)
+            //console.log(data)
             const genres = [
                 'Action','Comedy','Drama','Fantasy',
                 'Horror','Mystery','Romance','Thriller',
@@ -677,7 +677,7 @@
                     })
                 }
             })
-            console.log(Array.from(tags))
+            //console.log(Array.from(tags))
             
             let tagsArray = [];
             Array.from(tags).forEach(t => {
@@ -799,7 +799,7 @@
         }
 
         function renderGraph() {
-            console.log(data)
+            //console.log(data)
             
 
             const start = new Date()
@@ -900,7 +900,7 @@
          
                 
                 const end = new Date()
-                console.log('Time Taken : ', end - start)
+                console.log("Time Taken : " + (end - start) + " ms")
 
                 function updateHighlight() {
                 // trigger update of highlighted objects in scene
