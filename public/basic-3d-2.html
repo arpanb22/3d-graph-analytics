@@ -12,7 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
     <script src="./range/range.js"></script>
-<!-- <script src="//unpkg.com/three-spritetext"></script> -->
+    <!-- <script src="//unpkg.com/three-spritetext"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.js"></script> -->
     <!--<script src="../../dist/3d-force-graph-vr.js"></script>-->
     <style>
@@ -29,237 +29,237 @@
         /* .ui.menu:last-child {
           margin-bottom: 110px;
         } */
-        
+
 
     </style>
 
-  </head>
-  
-  <body>
-    <!-- <div class="ui vertical menu">
-        <div class="item">
-          <div class="ui input"><input type="text" placeholder="Search..."></div>
-        </div>
-        <div class="item">
-          Home
-          <div class="menu">
-            <a class="active item">Search</a>
-            <a class="item">Add</a>
-            <a class="item">Remove</a>
-          </div>
-        </div>
-        <a class="item">
-          <i class="grid layout icon"></i> Browse
-        </a>
-        <a class="item">
-          Messages
-        </a>
-        <div class="ui dropdown item">
-          More
-          <i class="dropdown icon"></i>
-          <div class="menu">
-            <a class="item"><i class="edit icon"></i> Edit Profile</a>
-            <a class="item"><i class="globe icon"></i> Choose Language</a>
-            <a class="item"><i class="settings icon"></i> Account Settings</a>
-          </div>
-        </div>
-      </div> -->
-        <div class="ui grid" id="container">
-            <div class="row">
-                <div class="thirteen wide column">
-                    <div class="column">
-                        <div class="ui tabular menu">
-                            <a class="item" id="sperical-node-selector">Spherical Nodes</a>
-                            <a class="item" id="text-node-selector">Text Nodes</a>
-                            <a class="item" id="img-node-selector">Image Nodes</a>
-                        </div>
-                    </div>
-                    
-                    <!-- <div class="ui horizontal equal width segments" style="width:50%">
-                        <div class="ui segment">
-                            <div class="ui segment">
-                                <div class="ui segment">
-                                    <div class="ui range" id="range-1"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ui segment">
-                            Segment Two with a lot of additional content
-                        </div>
-                    </div> -->
-                    <div id="3d-graph"></div>
+</head>
+
+<body>
+<!-- <div class="ui vertical menu">
+    <div class="item">
+      <div class="ui input"><input type="text" placeholder="Search..."></div>
+    </div>
+    <div class="item">
+      Home
+      <div class="menu">
+        <a class="active item">Search</a>
+        <a class="item">Add</a>
+        <a class="item">Remove</a>
+      </div>
+    </div>
+    <a class="item">
+      <i class="grid layout icon"></i> Browse
+    </a>
+    <a class="item">
+      Messages
+    </a>
+    <div class="ui dropdown item">
+      More
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <a class="item"><i class="edit icon"></i> Edit Profile</a>
+        <a class="item"><i class="globe icon"></i> Choose Language</a>
+        <a class="item"><i class="settings icon"></i> Account Settings</a>
+      </div>
+    </div>
+  </div> -->
+<div class="ui grid" id="container">
+    <div class="row">
+        <div class="thirteen wide column">
+            <div class="column">
+                <div class="ui tabular menu">
+                    <a class="item" id="sperical-node-selector">Spherical Nodes</a>
+                    <a class="item" id="text-node-selector">Text Nodes</a>
+                    <a class="item" id="img-node-selector">Image Nodes</a>
                 </div>
-                <div class="three wide column" id="controls">
-                    <h4 class="ui horizontal divider">
-                        Graph Controls
-                    </h4>
+            </div>
 
-                    <div class="row">
-                        <div class="ui two statistics">
-                            <div class="statistic">
-                            <div class="value" id="node-count">
-                                0
-                            </div>
-                            <div class="label">
-                                Nodes
-                            </div>
-                            </div>
-                            <div class="statistic">
-                            <div class="value" id="links-count">
-                                0
-                            </div>
-                            <div class="label">
-                                Links
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- <div class="row">
-                        <h3 class="ui header">Adjust Force</h3>
-                        
+            <!-- <div class="ui horizontal equal width segments" style="width:50%">
+                <div class="ui segment">
+                    <div class="ui segment">
                         <div class="ui segment">
-                            <div class="ui red range" id="force-range"></div>
-                            <br>
-                            <div class="ui mini horizontal statistic">
-                                <div class="value" id="force-value">
-                                  400
-                                </div>
-                                <div class="label">
-                                  Units
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <div class="row">
-                        <div class="ui divider"></div>
-                    </div> 
-
-<!--                    <div class="row">-->
-<!--                        <h3 class="ui header"> Legend </h3>-->
-<!--                        -->
-<!--                        <div class="ui segment" id="legend">-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-                    <div class="row">
-                        <div class="ui divider"></div>
-                    </div>
-
-                    <div class="row">
-                        <h3 class="ui header">Adjust Link Distance</h3>
-                        
-                        <div class="ui segment">
-                            <div class="ui red range" id="link-distance-range"></div>
-                            <br>
-                            <div class="ui mini horizontal statistic">
-                                <div class="value" id="link-distance-value">
-                                  10
-                                </div>
-                                <div class="label">
-                                  Units
-                                </div>
-                            </div>
+                            <div class="ui range" id="range-1"></div>
                         </div>
                     </div>
+                </div>
+                <div class="ui segment">
+                    Segment Two with a lot of additional content
+                </div>
+            </div> -->
+            <div id="3d-graph"></div>
+        </div>
+        <div class="three wide column" id="controls">
+            <h4 class="ui horizontal divider">
+                Graph Controls
+            </h4>
 
-                    <div class="row">
-                        <div class="ui divider"></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="ui toggle checkbox">
-                            <input type="checkbox" name="public" id="toggle-selected-nodes"/>
-                            <label>Show selected nodes only</label>
-                          </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="ui divider"></div>
-                    </div>
-
-                    <div class="row">
-                        <h3 class="ui header">Filter Neighbours</h3>
-                        
-                        <div class="ui segment">
-                            <div class="ui teal range" id="neighbour-range"></div>
-                            <br>
-                            <div class="ui mini horizontal statistic">
-                                <div class="value" id="neighbour-distance">
-                                  1
-                                </div>
-                                <div class="label">
-                                  Hops
-                                </div>
-                            </div>
+            <div class="row">
+                <div class="ui two statistics">
+                    <div class="statistic">
+                        <div class="value" id="node-count">
+                            0
+                        </div>
+                        <div class="label">
+                            Nodes
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="ui divider"></div>
-                    </div>
-
-                    
-                    <div class="row">
-                        <h3 class="ui header" id="node-size-text">Text Size</h3>
-                        
-                        <div class="ui segment">
-                            <div class="ui  range" id="node-size-range"></div>
-                            <br>
-                            <div class="ui mini horizontal statistic">
-                                <div class="value" id="node-size-value">
-                                  15
-                                </div>
-                                <div class="label">
-                                </div>
-                            </div>
+                    <div class="statistic">
+                        <div class="value" id="links-count">
+                            0
+                        </div>
+                        <div class="label">
+                            Links
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="row">
-                        <div class="ui divider"></div>
-                    </div>
+            <!-- <div class="row">
+                <h3 class="ui header">Adjust Force</h3>
 
-                    <div class="ui category search row">
-                        <h3 class="ui header">Search Node</h3>
-                        <div class="ui icon input">
-                            <input class="prompt" type="text" id="search-name">
-                            <i class="search icon"></i>
+                <div class="ui segment">
+                    <div class="ui red range" id="force-range"></div>
+                    <br>
+                    <div class="ui mini horizontal statistic">
+                        <div class="value" id="force-value">
+                          400
+                        </div>
+                        <div class="label">
+                          Units
                         </div>
                     </div>
+                </div>
+            </div> -->
 
-                    <div class="row">
-                        <h3 class="ui header">Tag Filter</h3>
-                        <!-- <div class="ui dropdown">
-                            <div class="text"></div>
-                            <i class="dropdown icon"></i>
-                        </div> -->
-                        <div class="ui segment" id="tags-dropdown-parent">
-                            <select class="ui fluid search dropdown" multiple="" id="tags-dropdown">
-                            </select>
+            <div class="row">
+                <div class="ui divider"></div>
+            </div>
 
+            <!--                    <div class="row">-->
+            <!--                        <h3 class="ui header"> Legend </h3>-->
+            <!--                        -->
+            <!--                        <div class="ui segment" id="legend">-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+
+            <div class="row">
+                <div class="ui divider"></div>
+            </div>
+
+            <div class="row">
+                <h3 class="ui header">Adjust Link Distance</h3>
+
+                <div class="ui segment">
+                    <div class="ui red range" id="link-distance-range"></div>
+                    <br>
+                    <div class="ui mini horizontal statistic">
+                        <div class="value" id="link-distance-value">
+                            10
+                        </div>
+                        <div class="label">
+                            Units
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="row">
-                        <div class="ui divider"></div>
+            <div class="row">
+                <div class="ui divider"></div>
+            </div>
+
+            <div class="row">
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" name="public" id="toggle-selected-nodes"/>
+                    <label>Show selected nodes only</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="ui divider"></div>
+            </div>
+
+            <div class="row">
+                <h3 class="ui header">Filter Neighbours</h3>
+
+                <div class="ui segment">
+                    <div class="ui teal range" id="neighbour-range"></div>
+                    <br>
+                    <div class="ui mini horizontal statistic">
+                        <div class="value" id="neighbour-distance">
+                            1
+                        </div>
+                        <div class="label">
+                            Hops
+                        </div>
                     </div>
+                </div>
+            </div>
 
-                    <button class="positive ui button large" id="shortest-path-button">Shortest Path</button>
+            <div class="row">
+                <div class="ui divider"></div>
+            </div>
 
-                    <div class="row">
-                        <div class="ui divider"></div>
+
+            <div class="row">
+                <h3 class="ui header" id="node-size-text">Text Size</h3>
+
+                <div class="ui segment">
+                    <div class="ui  range" id="node-size-range"></div>
+                    <br>
+                    <div class="ui mini horizontal statistic">
+                        <div class="value" id="node-size-value">
+                            15
+                        </div>
+                        <div class="label">
+                        </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="ui divider"></div>
+            </div>
+
+            <div class="ui category search row">
+                <h3 class="ui header">Search Node</h3>
+                <div class="ui icon input">
+                    <input class="prompt" type="text" id="search-name">
+                    <i class="search icon"></i>
+                </div>
+            </div>
+
+            <div class="row">
+                <h3 class="ui header">Tag Filter</h3>
+                <!-- <div class="ui dropdown">
+                    <div class="text"></div>
+                    <i class="dropdown icon"></i>
+                </div> -->
+                <div class="ui segment" id="tags-dropdown-parent">
+                    <select class="ui fluid search dropdown" multiple="" id="tags-dropdown">
+                    </select>
 
                 </div>
             </div>
-        </div>
-        
-      </body>
 
-    <script type="module">
-        
+            <div class="row">
+                <div class="ui divider"></div>
+            </div>
+
+            <button class="positive ui button large" id="shortest-path-button">Shortest Path</button>
+
+            <div class="row">
+                <div class="ui divider"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script type="module">
+
         import { UnrealBloomPass } from '//cdn.skypack.dev/three@0.136/examples/jsm/postprocessing/UnrealBloomPass.js';
         let data = {}
         let originalData = {}
@@ -268,7 +268,7 @@
             'nodes' : [],
             'links' : []
         }
-        let Graph; 
+        let Graph;
         const visitedNodes = new Set();
         const selectedNodes = new Set();
         const selectedNodesNeighbors = new Set();
@@ -312,7 +312,7 @@
 
             fetchData()
 
-            $('#sperical-node-selector').click(function(e) {  
+            $('#sperical-node-selector').click(function(e) {
                 nodeType = 1
                 // Graph.nodeThreeObject(node => {
                 //     return false;
@@ -320,8 +320,8 @@
                 renderGraph()
                 changeNodeSlider()
             });
-            
-            $('#text-node-selector').click(function(e) {  
+
+            $('#text-node-selector').click(function(e) {
                 nodeType = 2
                 // Graph.nodeThreeObject(node => {
                 //     const sprite = new SpriteText(node.name);
@@ -335,8 +335,8 @@
                 //console.log('Hi')
             });
 
-            
-            $('#img-node-selector').click(function(e) {  
+
+            $('#img-node-selector').click(function(e) {
                 nodeType = 3
                 // Graph.nodeThreeObject(node => {
                 //     const sprite = new SpriteText(node.name);
@@ -388,7 +388,7 @@
                     force = value
                 }
             });
-            
+
             $( "#force-range" ).mouseup(function() {
                 renderGraph()
             });
@@ -406,7 +406,7 @@
                 }
             });
 
-            
+
             $('#font-size-range').range({
                 min: 2,
                 max: 50,
@@ -425,7 +425,7 @@
 
         });
 
-        
+
         function updateBloom(bloomValue) {
             const bloomPass = new UnrealBloomPass();
             bloomPass.strength = bloomValue;
@@ -437,8 +437,8 @@
         function formatData(response) {
             data = response
             data.forEach((e,i) => {
-                data[i] = data[i].n  
-            }) 
+                data[i] = data[i].n
+            })
             data.forEach(e => {
                 e['id'] = e.identity
                 if(e.properties.hasOwnProperty('title')) {
@@ -475,12 +475,12 @@
         function formatRelationship(response) {
             relationships = response
             relationships.forEach((e,i) => {
-                relationships[i] = relationships[i].r 
-            }) 
+                relationships[i] = relationships[i].r
+            })
             relationships.forEach(e => {
                 e['source'] = e.start
                 e['target'] = e.end
-            }) 
+            })
             formatted.links = relationships
             return formatted
         }
@@ -612,7 +612,7 @@
             selectedNodes.add(dest);
             console.log('Source', src);
             console.log('Destination', dest);
-            
+
             var q = [];
             var parentNode = {};
             var parentLink = {};
@@ -652,7 +652,7 @@
                 })
             }
             var idx = dest.identity;
-            
+
             while (idx != -1){
                 //console.log('idx', idx);
                 selectedNodesNeighbors.add(idToNodeMap[idx]);
@@ -677,7 +677,7 @@
         }
 
         function addNodeTags(data) {
-            data.nodes.forEach(n => {     
+            data.nodes.forEach(n => {
                 if(n.hasOwnProperty('labels')) {
                     n.labels.forEach(e => {
                         tags.add(e)
@@ -685,7 +685,7 @@
                 }
             })
             //console.log(Array.from(tags))
-            
+
             let tagsArray = [];
             Array.from(tags).forEach(t => {
                 tagsArray.push({
@@ -704,7 +704,7 @@
                 if(selectedNodes.has(node)) {
                     console.log('Remove Node: ', node)
                     selectedNodes.delete(node)
-                 } else { 
+                 } else {
                     addNodeAndNeightbors(node)
                  }
             } else { // single-selection
@@ -715,11 +715,8 @@
                 if(!untoggle) {
                     console.log('Adding node and neighbours: ', node)
                     addNodeAndNeightbors(node)
-                } 
-            }
-
-            
-            // Aim at node from outside it
+                }
+                // Aim at node from outside it
             const distance = 400;
             const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
             Graph.cameraPosition({
@@ -727,6 +724,10 @@
                 node, // lookAt ({ x, y, z })
                 3000  // ms transition duration
             );
+            }
+
+
+
 
             Graph.nodeColor(Graph.nodeColor()); // update color of selected node
         }
@@ -739,9 +740,9 @@
             }
 
             if(highlightNodes.has(node)) {
-                if(node === hoverNode) 
+                if(node === hoverNode)
                     return RED
-                else 
+                else
                     return YELLOW
             } if (selectedNodes.has(node)) {
                 return RED
@@ -750,7 +751,7 @@
             } else {
                 return getColor(node)
             }
-            
+
         }
 
         function filterSelectedNodes(isToggle) {
@@ -780,11 +781,11 @@
             window.imageCache = imageCache
             if(!imageCache.hasOwnProperty(name)) {
                 const imageLocation = './imgs/' + name + '.jpg'
-                const imgTexture = new THREE.TextureLoader().load(imageLocation);      
+                const imgTexture = new THREE.TextureLoader().load(imageLocation);
                 const material = new THREE.SpriteMaterial({ map: imgTexture });
                 const sprite = new THREE.Sprite(material);
                 imageCache[name] = sprite
-                
+
             }
 
             return imageCache[name]
@@ -807,14 +808,14 @@
 
         function renderGraph() {
             //console.log(data)
-            
+
 
             const start = new Date().getTime()
 
             Graph = ForceGraph3D()
                 (document.getElementById('3d-graph'))
                     // .jsonUrl('/three.js/examples/graph/formatted.json')
-                    .graphData(data)      
+                    .graphData(data)
                     .nodeRelSize(9)
                     .linkLabel('type')
                     // .width()
@@ -829,14 +830,14 @@
                         } else if(nodeType == 1) {
                             return false
                         } else {
-                            
+
                             // const imageLocation = '/three.js/examples/graph/imgs/' + node.name + '.jpg'
-                            // const imgTexture = new THREE.TextureLoader().load(imageLocation);      
+                            // const imgTexture = new THREE.TextureLoader().load(imageLocation);
                             // const material = new THREE.SpriteMaterial({ map: imgTexture });
                             // const sprite = new THREE.Sprite(material);
 
                             let sprite =  getImageSprite(node.name)
-                            
+
                             if(node.labels.includes('Movie')) {
                                 sprite.scale.set(imageSize * 2, imageSize * 2);
                             } else if(node.labels.includes('Person')) {
@@ -855,10 +856,10 @@
                     .linkDirectionalParticles(link => (highlightLinks.has(link) || selectedNodesLinks.has(link)) ? 2 : 0)
                     .linkDirectionalParticleWidth(4)
                     // .nodeColor(node => selectedNodes.has(node) ? 'yellow' : 'grey')
-                    
+
                     .nodeThreeObjectExtend(false)
                     .onNodeClick(onNodeClickHandler)
-                    
+
                     .onNodeDrag((node, translate) => {
                         // console.log(node)
                         if (selectedNodes.has(node)) { // moving a selected node
@@ -904,8 +905,8 @@
 
                         updateHighlight();
                     });
-         
-                
+
+
                 const end = new Date().getTime()
                 console.log("Time Taken : " + (end - start) + " ms")
 
@@ -915,17 +916,17 @@
                         .linkWidth(Graph.linkWidth())
                         .linkDirectionalParticles(Graph.linkDirectionalParticles());
                 }
-                 
+
                 Graph.d3Force('charge').strength(-1 * force);
                 linkForce = Graph.d3Force('link').distance(link => linkForceDistance);
                 window.Graph = Graph
 
-        
+
                 elementResizeDetectorMaker().listenTo(
                     document.getElementById('3d-graph'),
                     el => Graph.width(el.offsetWidth)
                 );
-                
+
 
                 $('#link-distance-range').range({
                     min: 5,
@@ -957,7 +958,7 @@
                         }
                     }
                 }
-        
+
                 function tagsHandler() {
                     if(nTags !== document.querySelectorAll('#tags-dropdown-parent a').length) {
                         nTags = document.querySelectorAll('#tags-dropdown-parent a').length
@@ -995,25 +996,32 @@
 
                 function nameSearch() {
                         name = $('#search-name').val();
-
-                        data.nodes.forEach(node => {
-                         if(node.name === name) {
-                            selectedNodes.add(node)
-                         } else {
-                            if(selectedNodes.has(node))
-                                selectedNodes.delete(node)
-                         }
-                        })
-                        console.log(Array.from(selectedNodes))
-                        Graph.nodeColor(Graph.nodeColor())
+                        if(name){
+                            data.nodes.forEach(node => {
+                             if(node.name.toLowerCase() === name.toLowerCase()) {
+                                selectedNodes.add(node)
+                                const distance = 400;
+                                            const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+                                            Graph.cameraPosition({
+                                                x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
+                                                node, // lookAt ({ x, y, z })
+                                                3000  // ms transition duration
+                                            );
+                             } else {
+                                if(selectedNodes.has(node))
+                                    selectedNodes.delete(node)
+                             }
+                            })
+                            //console.log(Array.from(selectedNodes))
+                            Graph.nodeColor(Graph.nodeColor())
+                        }
                     }
-
 
                 $("#search-name" ).click(function() {
                     nameSearch()
                 });
 
-                
+
                 $('#shortest-path-button').on('click', function() {
                     console.log('clicked', selectedNodes.size)
                     if(selectedNodes.size == 2) {
@@ -1030,4 +1038,4 @@
 
 
     </script>
-  </body>
+</body>
